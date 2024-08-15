@@ -1,6 +1,3 @@
-@extends('components.layouts.app')
-
-@section('content')
 <div>
     <h1 class="text-3xl font-extrabold mb-6 text-gray-800">Gerenciamento de Tarefas</h1>
 
@@ -33,6 +30,23 @@
         </button>
     </form>
 
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between bg-white p-4 rounded-lg shadow-md">
+        <div class="mb-4 md:mb-0">
+            <label for="search" class="block text-sm font-medium text-gray-700">Buscar Tarefa</label>
+            <input type="text" wire:model.debounce.300ms="search" id="search" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+
+        <div>
+            <label for="sort" class="block text-sm font-medium text-gray-700">Ordenar Por</label>
+            <select wire:model="sort" id="sort" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="title_asc">Título Ascendente</option>
+                <option value="title_desc">Título Descendente</option>
+                <option value="created_at_asc">Data de Criação Ascendente</option>
+                <option value="created_at_desc">Data de Criação Descendente</option>
+            </select>
+        </div>
+    </div>
+
     <h2 class="text-2xl font-bold mb-4 text-gray-800">Tarefas</h2>
     <ul class="space-y-2">
         @foreach($tasks as $task)
@@ -50,4 +64,3 @@
         @endforeach
     </ul>
 </div>
-@endsection

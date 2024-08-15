@@ -1,6 +1,3 @@
-@extends('components.layouts.app')
-
-@section('content')
 <div>
     <h1 class="text-3xl font-extrabold mb-6 text-gray-800">Gerenciamento de Categorias</h1>
 
@@ -29,4 +26,3 @@
         @endforeach
     </ul>
 </div>
-@endsection

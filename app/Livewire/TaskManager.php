@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire;
 
 use Livewire\Component;
@@ -8,22 +7,23 @@ use App\Models\Category;
 
 class TaskManager extends Component
 {
-    public $tasks;
-    public $categories;
     public $title;
     public $description;
     public $category_id;
     public $taskId;
+    public $search = '';
+    public $sort = 'title_asc'; // valor padrão para a ordenação
+
+    public $categories;
 
     protected $rules = [
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'category_id' => 'required|exists:categories,id',
+        'category_id' => 'nullable|exists:categories,id',
     ];
 
     public function mount()
     {
-        $this->tasks = Task::with('category')->get();
         $this->categories = Category::all();
     }
 
@@ -36,12 +36,12 @@ class TaskManager extends Component
             [
                 'title' => $this->title,
                 'description' => $this->description,
-                'category_id' => $this->category_id,
+                'category_id' => $this->category_id
             ]
         );
 
         $this->resetFields();
-        $this->tasks = Task::with('category')->get();
+        $this->emit('taskUpdated'); // Emitir evento para atualizar a lista de tarefas
     }
 
     public function edit(Task $task)
@@ -55,7 +55,7 @@ class TaskManager extends Component
     public function delete(Task $task)
     {
         $task->delete();
-        $this->tasks = Task::with('category')->get();
+        $this->emit('taskUpdated'); // Emitir evento para atualizar a lista de tarefas
     }
 
     private function resetFields()
@@ -68,6 +68,30 @@ class TaskManager extends Component
 
     public function render()
     {
-        return view('livewire.task-manager');
+        $tasksQuery = Task::query()
+            ->when($this->search, function ($query) {
+                $query->where('title', 'like', '%' . $this->search . '%')
+                      ->orWhere('description', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->sort, function ($query) {
+                switch ($this->sort) {
+                    case 'title_asc':
+                        $query->orderBy('title', 'asc');
+                        break;
+                    case 'title_desc':
+                        $query->orderBy('title', 'desc');
+                        break;
+                    case 'created_at_asc':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    case 'created_at_desc':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                }
+            });
+
+        $tasks = $tasksQuery->get();
+
+        return view('livewire.task-manager', ['tasks' => $tasks]);
     }
 }

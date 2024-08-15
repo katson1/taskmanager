@@ -12,7 +12,7 @@ class CategoryManager extends Component
     public $categoryId;
 
     protected $rules = [
-        'name' => 'required|string|max:255|unique:categories,name',
+        'name' => 'required|string|max:255',
     ];
 
     public function mount()
@@ -22,7 +22,9 @@ class CategoryManager extends Component
 
     public function store()
     {
-        $this->validate();
+        $this->validate([
+            'name' => $this->categoryId ? 'required|string|max:255|unique:categories,name,' . $this->categoryId : 'required|string|max:255|unique:categories,name',
+        ]);
 
         Category::updateOrCreate(
             ['id' => $this->categoryId],
@@ -33,14 +35,16 @@ class CategoryManager extends Component
         $this->categories = Category::all();
     }
 
-    public function edit(Category $category)
+    public function edit($categoryId)
     {
+        $category = Category::find($categoryId);
         $this->categoryId = $category->id;
         $this->name = $category->name;
     }
 
-    public function delete(Category $category)
+    public function delete($categoryId)
     {
+        $category = Category::find($categoryId);
         $category->delete();
         $this->categories = Category::all();
     }
