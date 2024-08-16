@@ -13,6 +13,12 @@
         </button>
     </form>
 
+    <div class="mb-6 flex justify-end">
+        <a href="{{ route('tasks.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+            Gerenciar Tarefas
+        </a>
+    </div>
+
     <h2 class="text-2xl font-bold mb-4 text-gray-800">Categorias</h2>
     <ul class="space-y-2">
         @foreach($categories as $category)

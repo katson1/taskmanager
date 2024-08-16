@@ -11,8 +11,6 @@ class TaskManager extends Component
     public $description;
     public $category_id;
     public $taskId;
-    public $search = '';
-    public $sort = 'title_asc'; // valor padrão para a ordenação
 
     public $categories;
 
@@ -68,30 +66,9 @@ class TaskManager extends Component
 
     public function render()
     {
-        $tasksQuery = Task::query()
-            ->when($this->search, function ($query) {
-                $query->where('title', 'like', '%' . $this->search . '%')
-                      ->orWhere('description', 'like', '%' . $this->search . '%');
-            })
-            ->when($this->sort, function ($query) {
-                switch ($this->sort) {
-                    case 'title_asc':
-                        $query->orderBy('title', 'asc');
-                        break;
-                    case 'title_desc':
-                        $query->orderBy('title', 'desc');
-                        break;
-                    case 'created_at_asc':
-                        $query->orderBy('created_at', 'asc');
-                        break;
-                    case 'created_at_desc':
-                        $query->orderBy('created_at', 'desc');
-                        break;
-                }
-            });
-
-        $tasks = $tasksQuery->get();
-
+        $tasks = Task::all(); // Obtém todas as tarefas sem ordenação
+    
         return view('livewire.task-manager', ['tasks' => $tasks]);
     }
+    
 }
