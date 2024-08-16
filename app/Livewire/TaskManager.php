@@ -39,7 +39,7 @@ class TaskManager extends Component
         );
 
         $this->resetFields();
-        $this->emit('taskUpdated'); // Emitir evento para atualizar a lista de tarefas
+        $this->emit('taskUpdated');
     }
 
     public function edit(Task $task)
@@ -53,7 +53,7 @@ class TaskManager extends Component
     public function delete(Task $task)
     {
         $task->delete();
-        $this->emit('taskUpdated'); // Emitir evento para atualizar a lista de tarefas
+        $this->emit('taskUpdated');
     }
 
     private function resetFields()
@@ -66,7 +66,7 @@ class TaskManager extends Component
 
     public function render()
     {
-        $tasks = Task::all(); // Obtém todas as tarefas sem ordenação
+        $tasks = Task::all();
     
         return view('livewire.task-manager', ['tasks' => $tasks]);
     }
