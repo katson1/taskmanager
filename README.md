@@ -8,18 +8,18 @@ Antes de começar, certifique-se de que seu ambiente de desenvolvimento atende a
 
 - [PHP](https://www.php.net/downloads.php) >= 8.2
 - [Composer](https://getcomposer.org/)
-- [Node.js](https://nodejs.org/) (inclui npm)
+- [npm](https://docs.npmjs.com/cli/v10/commands/npm-install)
 
 ## Instalação e Configuração
 
 Clone o projeto:
 ```bash
-git clone https://github.com/seuusuario/gerenciamento-de-tarefas.git
+git clone https://github.com/katson1/taskmanager.git
 ```
 
 Acesse a pasta do projeto e instale as dependências necessárias com o Composer:
 ```bash
-cd gerenciamento-de-tarefas
+cd taskmanager
 composer install
 ```
 
@@ -47,7 +47,6 @@ Para configurar e iniciar o projeto usando SQLite, siga os seguintes passos:
    Configure o banco de dados no arquivo `.env`:
    ```plaintext
    DB_CONNECTION=sqlite
-   DB_DATABASE=/caminho/para/seu/database.sqlite
    ```
 
 2. **Gere a chave da aplicação:**
